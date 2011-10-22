@@ -10,7 +10,9 @@
 #include <linux/sysfs.h>
 #include <linux/proc_fs.h>
 
-#define DEBUG_IBUDDY 1
+#ifndef DEBUG_IBUDDY 
+#define DEBUG_IBUDDY 0
+#endif
 
 #define DRIVER_AUTHOR "Jyke Tapani Jokinen, tietomaakari@gmail.com"
 #define DRIVER_NAME "ibuddy"
@@ -18,14 +20,16 @@
 #define IBUDDY_INITIAL_VALUE 0xF5
 
 /* --- kernel printing routines --- */
-#define PRINT(fmt,arg...) printk(KERN_INFO DRIVER_NAME ": " fmt,##arg)
-#ifdef DEBUG_IBUDDY
+#if DEBUG_IBUDDY
+#define PRINT(fmt,arg...) do { \
+  printk(KERN_INFO DRIVER_NAME ": " fmt,##arg); \
+  } while(0)
+#else
+#define PRINT(fmt,arg...) do {} while(0)
+#endif
 #define ERROR(fmt,arg...) do { \
   printk(KERN_ALERT DRIVER_NAME ":%s: Error! - " fmt, __func__, ##arg); \
   } while(0) 
-#else
-#define ERROR(fmt,arg...) do {} while(0)
-#endif
 
 /* --- per i-buddy information ---- */
 struct ibuddy_dev {
