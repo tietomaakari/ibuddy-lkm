@@ -1,0 +1,8 @@
+.tmp*
+Module*
+*.mod.c
+modules.order
+*.cmd
+*.ko
+*.o
+*~

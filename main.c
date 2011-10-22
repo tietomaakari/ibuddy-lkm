@@ -27,7 +27,7 @@ static int ibuddy_probe(
   int retval = -ENOMEM;
 
   PRINT("probe\n");
-  /* we only attach to 1st interface, still return success to others */
+  /* we only attach to 1st interface */
   if( interface->cur_altsetting->desc.bInterfaceNumber != 1 ) {
     ERROR("ignored interface\n");
     return -ENXIO; 
@@ -129,6 +129,10 @@ static int ibuddy_probe(
 
   dev_info( &interface->dev, DRIVER_NAME " USB driver attached\n" );
 
+  /* increment module use count */
+  if( !try_module_get(THIS_MODULE) )
+    ERROR( "try_module_get failed!\n" );
+
   return 0;
 } /* ibuddy_probe() */
 
@@ -158,6 +162,8 @@ static void ibuddy_disconnect(struct usb_interface* interface )
   ibuddy_enumeration[ mydev->num ] = 0;
 
   kfree( mydev );
+  module_put(THIS_MODULE);
+
   PRINT("disconnect done.\n");
 } /* ibuddy_disconnect() */
 
