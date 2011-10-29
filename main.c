@@ -177,11 +177,20 @@ static struct usb_driver ibuddy_driver = {
 };
 
 /* -------------------------------------------------------------------- */
+/* module parameters */
+static unsigned int timeout = 0;
+module_param( timeout, uint, S_IRUGO );
+MODULE_PARM_DESC( timeout, 
+		  "timeout for usb_control_msg(). default 0 (no timeout)" );
+
+/* -------------------------------------------------------------------- */
 static int __init ibuddy_init(void)
 {
   int retval = -ENOMEM;
 
   PRINT("init\n");
+
+  ibuddy_usb_setup( timeout ); /* module param, default = 0 */
 
   ibuddy_enumeration = kzalloc( 8*sizeof(unsigned char), GFP_KERNEL );
   if( ibuddy_enumeration == NULL ) {

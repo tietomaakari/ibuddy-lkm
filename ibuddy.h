@@ -33,7 +33,7 @@
 
 /* --- per i-buddy information ---- */
 struct ibuddy_dev {
-  struct usb_device* udev;      // usb device
+  struct usb_device* udev;      // usb device for this ibuddy
   unsigned char      raw;       // data sent to ibuddy
   unsigned short     type;      // type from probe
   unsigned char*     procname;  // /proc/driver/ibuddy/X name
@@ -41,9 +41,14 @@ struct ibuddy_dev {
   struct kobject*    kobj;
 };
 
+/* initial setup of usb communications (called from module init) */
+void ibuddy_usb_setup( unsigned int timeout );
+/* send command to ibuddy */
 void ibuddy_cmd( struct ibuddy_dev* dev, uint8_t cmd );
 
+/* create the attributes for one ibuddy (called from probe) */
 void ibuddy_attr_init( struct usb_interface* interface );
+/* remove attributes (called from disconned) */
 void ibuddy_attr_remove( struct usb_interface* interface );
 
 #endif /* IBUDDY_H */

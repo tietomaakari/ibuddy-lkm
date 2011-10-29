@@ -1,10 +1,17 @@
 #include "ibuddy.h"
 
+static unsigned int usb_timeout = 0;
+
 static int usb_send( struct usb_device* udev, void* data, int len );
+/* ---------------------------------------------------------------- */
+void ibuddy_usb_setup( unsigned int timeout )
+{
+  usb_timeout = timeout;
+}
 
 /* ---------------------------------------------------------------- */
 static unsigned char* reset_data  = "\x22\x09\x00\x02\x01\x00\x00\x00";
-void ibuddy_setup( struct ibuddy_dev* dev ) 
+static void ibuddy_setup( struct ibuddy_dev* dev ) 
 {
   int retval = usb_send( dev->udev, reset_data, 8 );
   if( retval )
@@ -58,7 +65,7 @@ static int usb_send( struct usb_device* udev, void* data, int len )
 			     0x01,  /* index */
 			     msg,  /* data */
 			     len,   /* size */
-			     0   /* timeout in ms, 0 = forever */ );
+			     usb_timeout   /* timeout in ms, 0 = forever */ );
   kfree( msg );
   return (retval<0) ? retval : 0;
 } /* usb_send */
