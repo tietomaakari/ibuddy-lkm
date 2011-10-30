@@ -10,8 +10,12 @@
 #include <linux/sysfs.h>
 #include <linux/proc_fs.h>
 
+#ifdef CONFIG_USB_DEBUG
+#define DEBUG_IBUDDY 5
+#endif
+
 #ifndef DEBUG_IBUDDY 
-#define DEBUG_IBUDDY 0
+#define DEBUG_IBUDDY 1
 #endif
 
 #define DRIVER_AUTHOR "Jyke Tapani Jokinen, tietomaakari@gmail.com"
@@ -19,13 +23,25 @@
 #define DRIVER_DESC "iBuddy USB driver"
 #define IBUDDY_INITIAL_VALUE 0xF5
 
+
 /* --- kernel printing routines --- */
-#if DEBUG_IBUDDY
-#define PRINT(fmt,arg...) do { \
-  printk(KERN_INFO DRIVER_NAME ": " fmt,##arg); \
-  } while(0)
-#else
+/* DEBUG_IBUDDY == 0,  no debug at all */
+/* DEBUG_IBUDDY == 1, debug controlled by module parameter 'debug' */
+/* DEBUG_IBUDDY > 1, always debug prints */
+
+#define KERNPRINT(fmt,arg...) 
+#if DEBUG_IBUDDY == 0
 #define PRINT(fmt,arg...) do {} while(0)
+#elif DEBUG_IBUDDY == 1
+extern int ibuddy_debug;
+#define PRINT(fmt,arg...) do { \
+  if( unlikely( ibuddy_debug ) ) { \
+    printk(KERN_INFO DRIVER_NAME ": " fmt,##arg); \
+  } } while(0)
+#else /* DEBUG_IBUDDY > 1 */
+#define PRINT(fmt,arg...)  do { \
+  printk(KERN_INFO DRIVER_NAME ": " fmt,##arg) \
+} while(0)
 #endif
 #define ERROR(fmt,arg...) do { \
   printk(KERN_ALERT DRIVER_NAME ":%s: Error! - " fmt, __func__, ##arg); \

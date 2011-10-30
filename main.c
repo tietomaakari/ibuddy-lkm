@@ -182,6 +182,11 @@ static unsigned int timeout = 0;
 module_param( timeout, uint, S_IRUGO );
 MODULE_PARM_DESC( timeout, 
 		  "timeout for usb_control_msg(). default 0 (no timeout)" );
+#if DEBUG_IBUDDY == 1
+int ibuddy_debug = 0;
+module_param_named( debug, ibuddy_debug, bool, S_IRUGO );
+MODULE_PARM_DESC( debug, "are debug messages enabled" );
+#endif
 
 /* -------------------------------------------------------------------- */
 static int __init ibuddy_init(void)
@@ -216,7 +221,6 @@ static void __exit ibuddy_exit(void)
   kfree( ibuddy_enumeration );
 
 #ifdef CONFIG_PROC_FS
-  /* don't care if it already exists: */
   (void)remove_proc_entry( "driver/ibuddy", NULL );
 #endif
   PRINT("exit\n");
@@ -228,5 +232,4 @@ module_exit (ibuddy_exit);
 MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_LICENSE("GPL");
-
 
