@@ -12,6 +12,11 @@ add a new file /etc/modprobe.d/usbhid.conf with contents:
 	options usbhid quirks=0x1130:0x0001:0x0004
 
 This removes the i-buddy from the control of usbhid subsystem.
+
+If your system uses initrd, that should be updated also:
+
+	update-initramfs -u
+	
 You'll have to reboot the machine (or uninstall and reload 'usbhid' module)
 before this happens.
 
