@@ -18,7 +18,7 @@ If your system uses initrd, that should be updated also:
 	update-initramfs -u
 	
 You'll have to reboot the machine (or uninstall and reload 'usbhid' module)
-before this happens.
+before usbhid stops claiming the device.
 
 ## Compile and install
 
