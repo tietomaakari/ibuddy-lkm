@@ -33,7 +33,7 @@
 #if DEBUG_IBUDDY == 0
 #define PRINT(fmt,arg...) do {} while(0)
 #elif DEBUG_IBUDDY == 1
-extern int ibuddy_debug;
+extern bool ibuddy_debug;
 #define PRINT(fmt,arg...) do { \
   if( unlikely( ibuddy_debug ) ) { \
     printk(KERN_INFO DRIVER_NAME ": " fmt,##arg); \

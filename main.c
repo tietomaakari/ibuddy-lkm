@@ -183,7 +183,7 @@ module_param( timeout, uint, S_IRUGO );
 MODULE_PARM_DESC( timeout, 
 		  "timeout for usb_control_msg(). default 0 (no timeout)" );
 #if DEBUG_IBUDDY == 1
-int ibuddy_debug = 0;
+bool ibuddy_debug = 0;
 module_param_named( debug, ibuddy_debug, bool, S_IRUGO );
 MODULE_PARM_DESC( debug, "are debug messages enabled" );
 #endif
