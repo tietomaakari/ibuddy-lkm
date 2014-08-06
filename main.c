@@ -210,7 +210,7 @@ static int __init ibuddy_init(void)
 
   retval = usb_register(&ibuddy_driver);
   if (retval)
-    err("usb_register failed. Error number %d", retval);
+    pr_err("usb_register failed. Error number %d", retval);
   return retval;
 }
 
