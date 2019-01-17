@@ -179,12 +179,12 @@ static struct usb_driver ibuddy_driver = {
 /* -------------------------------------------------------------------- */
 /* module parameters */
 static unsigned int timeout = 0;
-module_param( timeout, uint, S_IRUGO );
+module_param( timeout, uint, 0660 );
 MODULE_PARM_DESC( timeout, 
 		  "timeout for usb_control_msg(). default 0 (no timeout)" );
 #if DEBUG_IBUDDY == 1
 bool ibuddy_debug = 0;
-module_param_named( debug, ibuddy_debug, bool, S_IRUGO );
+module_param_named( debug, ibuddy_debug, bool, 0660 );
 MODULE_PARM_DESC( debug, "are debug messages enabled" );
 #endif
 

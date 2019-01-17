@@ -36,7 +36,7 @@ static ssize_t set_reset
 
   return count;                                        
 } 
-static DEVICE_ATTR(reset, S_IWUGO | S_IRUGO, show_attr, set_reset );
+static DEVICE_ATTR(reset, 0660, show_attr, set_reset );
 
 /* helper macro to make individual set-routines for attributes */
 #define ibuddy_toggle_attr( name, startval, bitpos )	\
@@ -49,7 +49,7 @@ static ssize_t set_##name \
         toggle( buddy, startval, bitpos );		     \
         return count;                                        \
 } \
-static DEVICE_ATTR(name, S_IWUGO | S_IRUGO, show_attr, set_##name );
+static DEVICE_ATTR(name, 0660, show_attr, set_##name );
 
 /* control attributes for the i-buddy. 
    1 is one bit value,  3 is for 2 bits
